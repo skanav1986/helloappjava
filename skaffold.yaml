@@ -1,0 +1,17 @@
+apiVersion: skaffold/v2beta26
+kind: Config
+metadata:
+  name: helloappjava
+build:
+  artifacts:
+  - image: helloappjava
+    context: .
+    buildpacks:
+      builder: paketobuildpacks/builder:base
+      runImage: paketobuildpacks/run:base-cnb
+      env:
+      - "BP_JVM_VERSION=17"
+deploy:
+  kubectl:
+    manifests:
+    - kubernetes/*

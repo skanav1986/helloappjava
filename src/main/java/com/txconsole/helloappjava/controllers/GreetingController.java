@@ -1,5 +1,7 @@
 package com.txconsole.helloappjava.controllers;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -8,6 +10,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 public class GreetingController {
+
+    private static final Logger logger = LoggerFactory.getLogger(GreetingController.class);
 
     @Value("${greet.user}")
     private String greetuser;
@@ -33,12 +37,14 @@ public class GreetingController {
             model.addAttribute("name", greetuser);
         } 
         model.addAttribute("appversion", appversion);
+        logger.info("LOG: index - "+model);
 		return "index";
 	}
 
     @GetMapping("about")
 	public String about(  Model model) {
         model.addAttribute("appversion", appversion);
+        logger.info("LOG: about - "+model);
 		return "about";
 	}
 }
