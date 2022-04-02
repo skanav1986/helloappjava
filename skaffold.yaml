@@ -5,33 +5,14 @@ metadata:
 build:
   artifacts:
   - image: helloappjava
-    context: /Users/srajeshkumar/myprojects/myapps/helloappjava
-    sync:
-      auto: true
-    buildpacks:
-      builder: paketobuildpacks/builder:base
-      runImage: paketobuildpacks/run:base-cnb
-      env:
-      - BP_JVM_VERSION=17
-      projectDescriptor: project.toml
-      dependencies:
-        paths:
-        - .
-  tagPolicy:
-    gitCommit: {}
-  local:
-    concurrency: 1
+    docker:
+      dockerfile: Dockerfile
 deploy:
   kubectl:
     manifests:
-    - /Users/srajeshkumar/myprojects/myapps/helloappjava/kubernetes/*
-    defaultNamespace: helloapp
-  logs:
-    prefix: container
+    - kubernetes/deployment.yml
+    - kubernetes/service.yml
 portForward:
-- resourceType: deployment
+- resourceType: service
   resourceName: helloappjava
-  namespace: helloapp
-  port: 8080
-  address: 127.0.0.1
-  localPort: 8080
+  port: 8080      
